@@ -1,0 +1,23 @@
+.currency-selector__control {
+    height: 32px !important;
+}
+
+.currency-selector__menu {
+    width: 200px !important;
+    text-align: left;
+}
+
+.currency-btn {
+    line-height: 32px;
+    color: lightcoral;
+}
+
+.currency-btn:hover {
+    color: red;
+    cursor: pointer;
+}
+
+.li-one-currency {
+    padding: 16px;
+    background-color: #bae7ff;
+}

@@ -1,0 +1,17 @@
+.simple-converter {
+    margin: 20px auto;
+    width: 600px;
+    padding: 40px 20px;
+    border-radius: 10px;
+    background-color: #213E4A;
+    opacity: 1.2;
+}
+
+.currency-selector__control {
+    height: 32px !important;
+}
+
+.currency-selector__menu {
+    width: 200px !important;
+    text-align: left;
+}
