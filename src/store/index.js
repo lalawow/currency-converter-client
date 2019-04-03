@@ -1,8 +1,9 @@
 import { createStore } from 'redux';
-import reducer from './Reducer.js';
+import reducer from './reducer.js';
 
 const initValues = {
-    currencies: []
+    currencies: [],
+    currencyLabel: new Date()
 };
 
 const store = createStore(reducer, initValues);

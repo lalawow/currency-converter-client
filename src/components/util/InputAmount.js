@@ -25,14 +25,16 @@ export default class InputAmount extends Component {
     render() {
         const symbol = CurrencyDict[this.props.currency].currencySymbol
         return (
-            <div>
-                {symbol}<InputNumber
+            <div style={{
+                color: "#eee"
+            }}>
+                {symbol} < InputNumber
                     defaultValue={this.props.amount}
                     formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                     parser={value => value.replace(/\$\s?|(,*)/g, '')}
                     onChange={this.onChange} key={this.count}
                 />
-            </div>
+            </div >
         )
     }
 }

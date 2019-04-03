@@ -1,11 +1,12 @@
-import * as ActionTypes from './ActionTypes.js';
+import * as ActionTypes from './actionTypes.js';
 
 export default (state, action) => {
   const { currencies } = action;
 
   switch (action.type) {
     case ActionTypes.SET_CURRENCY:
-      return { ...state, currencies: currencies };
+      console.log("set currency", state, action)
+      return { ...state, currencies: currencies, currencyLabel: new Date() };
     default:
       return state
   }

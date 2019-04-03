@@ -4,6 +4,8 @@ import OneCurrency from './OneCurrency'
 import { CurrencyList, CurrencyDict } from '../../util/CurrencyList'
 import { Row, Col, Button, Icon } from 'antd';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { connect } from "react-redux";
+import { setCurrency } from "@/store/actions";
 
 
 
@@ -16,7 +18,7 @@ const reorder = (list, startIndex, endIndex) => {
     return result;
 };
 
-export default class ComplexConverter extends Component {
+class ComplexConverter extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -35,6 +37,7 @@ export default class ComplexConverter extends Component {
         const localInfo = localStorage.getItem('data')
         if (localInfo) {
             this.setState(JSON.parse(localInfo))
+            this.props.setCurrency(JSON.parse(localInfo).convertList)
         } else {
             localStorage.setItem('data', JSON.stringify({ convertList: [] }))
         }
@@ -47,6 +50,7 @@ export default class ComplexConverter extends Component {
             updateInfo[index] = value
             this.setState({ convertList: updateInfo })
             this.setConvertListLocal({ convertList: updateInfo })
+            this.props.setCurrency(updateInfo)
             if (this.state.base === currency) {
                 this.setState({ base: value })
                 this.setConvertListLocal({ base: value })
@@ -86,6 +90,7 @@ export default class ComplexConverter extends Component {
             this.setState(updateInfo)
             this.toggleAddAction()
             this.setConvertListLocal(updateInfo)
+            this.props.setCurrency(updateInfo.convertList)
         }
     }
     toggleAddAction = () => {
@@ -114,6 +119,7 @@ export default class ComplexConverter extends Component {
         this.setState({
             convertList: items
         });
+        this.props.setCurrency(items)
     }
 
     render() {
@@ -152,7 +158,7 @@ export default class ComplexConverter extends Component {
                 </DragDropContext>
 
                 {   /* 添加新汇率选项  */
-                    this.state.addAction ? (<Row><Col><CurrencySelector currency={this.info.newCurrency} no="add" onUpdate={this.changeNewCurrency} /></Col>
+                    this.state.addAction ? (<Row><Col><CurrencySelector currency={this.info.newCurrency} no="add" onUpdate={this.changeNewCurrency} complex={true} /></Col>
                         <Col><Button type="primary" icon="close" onClick={this.toggleAddAction}></Button><Button type="primary" icon="check" onClick={this.addNewCurrency}></Button></Col></Row>) :
                         (<Col><Button type="primary" icon="plus" onClick={this.toggleAddAction}></Button></Col>)
                 }
@@ -160,3 +166,8 @@ export default class ComplexConverter extends Component {
         )
     }
 }
+
+export default connect(
+    null,
+    { setCurrency }
+)(ComplexConverter);
