@@ -1,3 +1,31 @@
+.complex-converter {
+    display: flex;
+    justify-content: center;
+}
+
+.complex-converter-frame {
+    width: 500px;
+}
+
+.one-currency {
+    padding: 8px;
+    border: 1px solid rgba(188, 233, 196, 0.5);
+    border-radius: 5px;
+    margin: 2px;
+}
+
+.currency-selector-col {
+    width: 100px;
+}
+
+.currency-amount-col {
+    width: 200px;
+}
+
+.currency-action-btn {
+    width: 50px;
+}
+
 .currency-selector__control {
     height: 32px !important;
 }

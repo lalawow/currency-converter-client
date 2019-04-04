@@ -1,4 +1,4 @@
-export const CurrencyDict_temp = {
+export const CurrencyDict = {
     "ALL": { "currencyName": "Albanian Lek", "currencySymbol": "Lek", "id": "ALL" },
     "XCD": { "currencyName": "East Caribbean Dollar", "currencySymbol": "$", "id": "XCD" },
     "EUR": { "currencyName": "Euro", "currencySymbol": "€", "id": "EUR" },
@@ -157,7 +157,7 @@ export const CurrencyDict_temp = {
     "BYN": { "currencyName": "New Belarusian Ruble", "currencySymbol": "p.", "id": "BYN" }
 }
 
-export const CurrencyDict = {
+export const CurrencyDict_temp = {
     "EUR": { "currencyName": "Euro", "currencySymbol": "€", "id": "EUR" },
     "CNY": { "currencyName": "Chinese Yuan", "currencySymbol": "¥", "id": "CNY" },
     "USD": { "currencyName": "United States Dollar", "currencySymbol": "$", "id": "USD" },
@@ -166,4 +166,4 @@ export const CurrencyDict = {
     "GBP": { "currencyName": "British Pound", "currencySymbol": "£", "id": "GBP" }
 }
 
-export const CurrencyList = Object.keys(CurrencyDict).map(id => (CurrencyDict[id]))
+export const CurrencyList = Object.keys(CurrencyDict).sort().map(id => (CurrencyDict[id]))

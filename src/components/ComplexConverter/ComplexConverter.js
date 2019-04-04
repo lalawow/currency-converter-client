@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import CurrencySelector from '../util/CurrencySelector'
 import OneCurrency from './OneCurrency'
-import { CurrencyList, CurrencyDict } from '../../util/CurrencyList'
-import { Row, Col, Button, Icon } from 'antd';
+//import { CurrencyList, CurrencyDict } from '../../util/CurrencyList'
+import { Row, Col, Button } from 'antd';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { connect } from "react-redux";
 import { setCurrency } from "@/store/actions";
@@ -75,6 +75,7 @@ class ComplexConverter extends Component {
             }
             this.setState(updateInfo)
             this.setConvertListLocal(updateInfo)
+            this.props.setCurrency(updateInfo.convertList)
         }
 
     }
@@ -128,40 +129,42 @@ class ComplexConverter extends Component {
         const amount = this.state.amount
         console.log(this.state)
         return (
-            <div className="simple-converter">
-                <DragDropContext onDragEnd={this.onDragEnd}>
-                    <Droppable droppableId="droppable">
-                        {(provided, snapshot) => (
-                            <div
-                                {...provided.droppableProps}
-                                ref={provided.innerRef}
-                            >
-                                {this.state.convertList.map((currency, index) => (
-                                    <Draggable key={currency} draggableId={currency} index={index}>
-                                        {(provided, snapshot) => (
-                                            <div
-                                                ref={provided.innerRef}
-                                                {...provided.draggableProps}
-                                                {...provided.dragHandleProps}
+            <div className="complex-converter">
+                <div className="complex-converter-frame">
+                    <DragDropContext onDragEnd={this.onDragEnd}>
+                        <Droppable droppableId="droppable">
+                            {(provided, snapshot) => (
+                                <div
+                                    {...provided.droppableProps}
+                                    ref={provided.innerRef}
+                                >
+                                    {this.state.convertList.map((currency, index) => (
+                                        <Draggable key={currency} draggableId={currency} index={index} className="draggable-currency">
+                                            {(provided, snapshot) => (
+                                                <div
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
 
-                                            >
-                                                <OneCurrency currency={currency} amount={fx(amount).from(base).to(currency).toFixed(4)} onUpdate={this.handleUpdate} key={currency} index={index} />
-                                            </div>
-                                        )}
-                                    </Draggable>
+                                                >
+                                                    <OneCurrency currency={currency} amount={fx(amount).from(base).to(currency).toFixed(4)} onUpdate={this.handleUpdate} key={currency} index={index} />
+                                                </div>
+                                            )}
+                                        </Draggable>
 
-                                ))}
-                                {provided.placeholder}
-                            </div>
-                        )}
-                    </Droppable>
-                </DragDropContext>
+                                    ))}
+                                    {provided.placeholder}
+                                </div>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
 
-                {   /* 添加新汇率选项  */
-                    this.state.addAction ? (<Row><Col><CurrencySelector currency={this.info.newCurrency} no="add" onUpdate={this.changeNewCurrency} complex={true} /></Col>
-                        <Col><Button type="primary" icon="close" onClick={this.toggleAddAction}></Button><Button type="primary" icon="check" onClick={this.addNewCurrency}></Button></Col></Row>) :
-                        (<Col><Button type="primary" icon="plus" onClick={this.toggleAddAction}></Button></Col>)
-                }
+                    {   /* 添加新汇率选项  */
+                        this.state.addAction ? (<Row><Col><CurrencySelector currency={this.info.newCurrency} no="add" onUpdate={this.changeNewCurrency} complex={true} /></Col>
+                            <Col><Button type="primary" icon="close" onClick={this.toggleAddAction}></Button><Button type="primary" icon="check" onClick={this.addNewCurrency}></Button></Col></Row>) :
+                            (<Col><Button type="primary" icon="plus" onClick={this.toggleAddAction}></Button></Col>)
+                    }
+                </div>
             </div>
         )
     }
