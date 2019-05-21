@@ -6,6 +6,7 @@ import { Row, Col, Button } from 'antd';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { connect } from "react-redux";
 import { setCurrency } from "@/store/actions";
+import { getStatus } from "@/store/selectors";
 
 
 
@@ -42,6 +43,13 @@ class ComplexConverter extends Component {
             localStorage.setItem('data', JSON.stringify({ convertList: [] }))
         }
     }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.status) {
+            setTimeout(() => { this.setState({ amount: this.state.amount }) }, 0)
+        }
+    }
+
     handleUpdate = (action, currency, value) => {
         console.log(action, currency, value)
         if (action === "newCurrency" && this.state.convertList.indexOf(value) === -1) {
@@ -127,7 +135,7 @@ class ComplexConverter extends Component {
         const fx = this.props.fx
         const base = this.state.base
         const amount = this.state.amount
-        console.log(this.state)
+        //console.log(this.state)
         return (
             <div className="complex-converter">
                 <div className="complex-converter-frame">
@@ -138,21 +146,22 @@ class ComplexConverter extends Component {
                                     {...provided.droppableProps}
                                     ref={provided.innerRef}
                                 >
-                                    {this.state.convertList.map((currency, index) => (
-                                        <Draggable key={currency} draggableId={currency} index={index} className="draggable-currency">
-                                            {(provided, snapshot) => (
-                                                <div
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
+                                    {
+                                        this.state.convertList.map((currency, index) => (
+                                            <Draggable key={currency} draggableId={currency} index={index} className="draggable-currency">
+                                                {(provided, snapshot) => (
+                                                    <div
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
 
-                                                >
-                                                    <OneCurrency currency={currency} amount={fx(amount).from(base).to(currency).toFixed(4)} onUpdate={this.handleUpdate} key={currency} index={index} />
-                                                </div>
-                                            )}
-                                        </Draggable>
+                                                    >
+                                                        <OneCurrency currency={currency} amount={fx(amount).from(base).to(currency).toFixed(4)} onUpdate={this.handleUpdate} key={currency} index={index} />
+                                                    </div>
+                                                )}
+                                            </Draggable>
 
-                                    ))}
+                                        ))}
                                     {provided.placeholder}
                                 </div>
                             )}
@@ -170,7 +179,13 @@ class ComplexConverter extends Component {
     }
 }
 
+
+function mapStateToProps(state) {
+    return {
+        status: getStatus(state)
+    }
+}
 export default connect(
-    null,
+    mapStateToProps,
     { setCurrency }
 )(ComplexConverter);

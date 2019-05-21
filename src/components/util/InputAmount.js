@@ -26,7 +26,7 @@ export default class InputAmount extends Component {
         const symbol = (CurrencyDict[this.props.currency] || {}).currencySymbol || ''
         return (
             <div style={{
-                color: "#eee"
+                color: "#666"
             }}>
                 {symbol} < InputNumber
                     defaultValue={this.props.amount}

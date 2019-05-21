@@ -1,4 +1,4 @@
-import fx from "money"
+import { fx } from "money"
 let currency_rates = {
     "disclaimer": "Usage subject to terms: https://openexchangerates.org/terms",
     "license": "https://openexchangerates.org/license",
@@ -179,17 +179,34 @@ let currency_rates = {
     }
 }
 
-const setUpFx = (rates) => {
-    fx.base = rates.base
-    fx.rates = rates.rates
+// class FX {
+//     constructor(rates_data) {
+//         const { base, rates, timestamp } = rates_data
+//         myFx.base = base
+//         myFx.rates = rates
+//         myFx.timestamp = timestamp
+//         this.fx = myFx
+//     }
+
+//     setNew() {
+//         this.fx.new = true
+//     }
+// }
+
+function setFx(rates_data, status) {
+    const { base, rates, timestamp } = rates_data
+    fx.base = base
+    fx.rates = rates
+    fx.timestamp = timestamp
+    fx.new = status
 }
-setUpFx(currency_rates)
+
+setFx(currency_rates)
 
 fetch(process.env.REACT_APP_DATA_LINK).then(res => res.json()).then(res => {
-    //console.log("new data:", res)
+    console.log("new data:", res)
     currency_rates = Object.assign({}, res)
-    setUpFx(res)
-    fx.new = true
-})
+    setFx(res, true)
+});
 
 export { fx }

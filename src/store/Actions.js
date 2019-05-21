@@ -8,3 +8,9 @@ export const setCurrency = (currencies) => {
   };
 };
 
+export const setStatus = () => {
+  return {
+    type: ActionTypes.SET_STATUS,
+  };
+};
+

@@ -8,9 +8,6 @@ export default class OneCurrency extends Component {
     change = (no, value) => {
         this.props.onUpdate(no, this.props.currency, value)
     }
-    shouldComponentUpdate(nextProps, nextState) {
-        return true
-    }
     removeCurrency = () => {
         this.change("remove", 0)
     }
