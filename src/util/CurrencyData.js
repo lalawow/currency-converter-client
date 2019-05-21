@@ -204,7 +204,7 @@ function setFx(rates_data, status) {
 setFx(currency_rates)
 
 fetch(process.env.REACT_APP_DATA_LINK).then(res => res.json()).then(res => {
-    console.log("new data:", res)
+    // console.log("new data:", res)
     currency_rates = Object.assign({}, res)
     setFx(res, true)
 });

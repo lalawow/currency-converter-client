@@ -51,7 +51,7 @@ class ComplexConverter extends Component {
     }
 
     handleUpdate = (action, currency, value) => {
-        console.log(action, currency, value)
+        // console.log(action, currency, value)
         if (action === "newCurrency" && this.state.convertList.indexOf(value) === -1) {
             let updateInfo = this.state.convertList.slice()
             const index = this.state.convertList.indexOf(currency)
@@ -129,6 +129,9 @@ class ComplexConverter extends Component {
             convertList: items
         });
         this.props.setCurrency(items)
+        this.setConvertListLocal({
+            convertList: items
+        })
     }
 
     render() {

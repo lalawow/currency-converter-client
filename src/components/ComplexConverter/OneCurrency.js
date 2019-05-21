@@ -15,8 +15,9 @@ export default class OneCurrency extends Component {
         return (
             <div className="one-currency">
                 <Row justify="center" type="flex">
-                    <Col className="currency-selector-col"><CurrencySelector currency={this.props.currency} no="newCurrency" onUpdate={this.change} complex={true} /></Col>
                     <Col className="currency-amount-col"><InputAmount no="newAmount" amount={this.props.amount} onUpdate={this.change} currency={this.props.currency} /></Col>
+                    <Col className="currency-selector-col"><CurrencySelector currency={this.props.currency} no="newCurrency" onUpdate={this.change} complex={true} /></Col>
+
                     <Col className="currency-action-btn"><Icon type="delete" theme="filled" className="currency-btn" onClick={this.removeCurrency} /></Col>
                 </Row>
             </div>
