@@ -21,8 +21,10 @@ export default class extends React.PureComponent {
   }
 
   handleAddCurrency = () => {
-    this.handleCloseSelector()
-    this.props.add(this.state.selected)
+    if (this.state.selected !== "") {
+      this.handleCloseSelector()
+      this.props.add(this.state.selected)
+    }
   }
   render() {
     const { selectorVisible } = this.state

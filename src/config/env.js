@@ -39,4 +39,8 @@ export const CORE_BASE = env(
   "http://"
 );
 
+export const TITLE = env(
+  "TITLE",
+  "Currency Converter"
+);
 

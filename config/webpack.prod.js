@@ -8,6 +8,19 @@ const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plug
 const PrerenderSPAPlugin = require('prerender-spa-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const os = require('os');
+const paths = require('./paths');
+const getClientEnvironment = require('./env');
+
+const isEnvProduction = true
+const isEnvDevelopment = false
+const publicPath = isEnvProduction
+  ? paths.servedPath
+  : isEnvDevelopment && '/';
+const publicUrl = isEnvProduction
+  ? publicPath.slice(0, -1)
+  : isEnvDevelopment && '';
+const env = getClientEnvironment(publicUrl);
+
 module.exports = {
   entry: {
     app: ['babel-polyfill', './src/index.js', './src/containers/home/index.js'],
@@ -56,7 +69,8 @@ module.exports = {
                     //支持
                     '@babel/plugin-syntax-dynamic-import',
                     //true是less， 可以写'css' 如果不用less
-                    // ['import', { libraryName: 'antd-mobile', style: true }],
+                    //['import', { libraryName: 'antd', style: true }],
+                    ['import', { libraryName: 'antd', style: 'css', libraryDirectory: 'es', }],
                     ['@babel/plugin-proposal-class-properties', { loose: true }]
                   ],
                   cacheDirectory: true
@@ -66,7 +80,7 @@ module.exports = {
           },
           {
             test: /\.(css)$/,
-            loader: 'css-loader'
+            use: [{ loader: "style-loader" }, { loader: 'css-loader' }]
           },
           {
             test: /\.(less)$/,
@@ -150,7 +164,8 @@ module.exports = {
         minifyJS: true,
         minifyCSS: true,
         minifyURLs: true
-      }
+      },
+      favicon: "./public/favicon.ico"
     }),
     new PreloadWebpackPlugin({
       rel: 'preload',
@@ -189,6 +204,7 @@ module.exports = {
       }
     }),
     new webpack.HashedModuleIdsPlugin(),
+    new webpack.DefinePlugin(env.stringified),
     new PrerenderSPAPlugin({
       routes: ['/', '/home', '/shop'],
       staticDir: resolve(__dirname, '../dist')

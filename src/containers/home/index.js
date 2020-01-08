@@ -1,4 +1,5 @@
 import React from "react"
+import styled from "styled-components"
 import moment from "moment";
 import { connect } from "react-redux"
 import { pull, isEqual } from "lodash"
@@ -13,6 +14,8 @@ import { setCurrencyList } from "../../store/actions"
 import { reorder } from "../../lib"
 import { fx } from "../../lib/fx"
 import { CORE_BASE } from "../../config"
+import bgImg from "../../static/images/background-coins.jpg"
+
 
 @connect(state => {
   return {
@@ -26,7 +29,7 @@ class Home extends React.PureComponent {
   activeAmount = getItem("activeAmount") || 1
 
   componentDidMount() {
-    this.resetValues()
+    //this.resetValues()
     this.handleFetch()
   }
 
@@ -118,43 +121,54 @@ class Home extends React.PureComponent {
     const { timestamp } = currencyRate
     console.log(currencyList)
     return (
-      <div>
-        {moment.unix(timestamp).format("YYYY-MM-DD")}
+      <Container>
+        <div className="app-title" style={{ backgroundImage: `url(${bgImg})` }}>
+          <div className="app-title-frame">
+            <div className="app-title-txt">
+              Currency Converter
+          </div>
+            <div className="data-date">
+              rates updated on:  {moment.unix(timestamp).format("YYYY-MM-DD")}
+            </div>
+          </div>
+        </div>
+        <div className="currency-box">
+          <DragDropContext onDragEnd={this.onDragEnd}>
+            <Droppable droppableId="droppable">
+              {(provided, snapshot) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                // style={getListStyle(snapshot.isDraggingOver)}
+                >
+                  {currencyList.map((currency, index) => (
+                    <Draggable key={currency} draggableId={currency} index={index}>
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        // style={getItemStyle(
+                        //   snapshot.isDragging,
+                        //   provided.draggableProps.style
+                        // )}
+                        >
+                          <OneCurrency currency={currency} onChange={this.handleChange} form={form} key={index} />
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
 
-        <DragDropContext onDragEnd={this.onDragEnd}>
-          <Droppable droppableId="droppable">
-            {(provided, snapshot) => (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              // style={getListStyle(snapshot.isDraggingOver)}
-              >
-                {currencyList.map((currency, index) => (
-                  <Draggable key={currency} draggableId={currency} index={index}>
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      // style={getItemStyle(
-                      //   snapshot.isDragging,
-                      //   provided.draggableProps.style
-                      // )}
-                      >
-                        <OneCurrency currency={currency} onChange={this.handleChange} form={form} key={index} />
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-        {/* {currencyList.map((currency, index) => (
+          {/* {currencyList.map((currency, index) => (
           <OneCurrency currency={currency} onChange={this.handleChange} form={form} key={index} />))} */}
-        <AddCurrency add={this.handleAddCurrency} />
-      </div>
+          <AddCurrency add={this.handleAddCurrency} />
+        </div>
+      </Container>
     )
   }
 }
@@ -162,3 +176,33 @@ class Home extends React.PureComponent {
 const HomeFormWrapper = Form.create({ name: 'normal_login' })(Home);
 
 export default HomeFormWrapper
+
+const Container = styled.div`
+.app-title, .app-title-frame {
+  width: 100%;
+  background: linear-gradient(90deg, rgba(5,170,176,0.7) 0%, rgba(9,121,108,0.7) 100%);
+}
+
+.app-title-txt {
+font-size: 60px;
+color: white;
+text-align:center;
+padding: 40px;
+font-family: 'Lobster', cursive;
+}
+
+.data-date {
+  margin: 0 auto;
+  padding-bottom: 40px;
+  color: white;
+  font-size: 30px;
+  font-family: 'Cute Font', cursive;
+  width: 600px;
+  text-align:right;
+}
+
+.currency-box {
+  padding-top: 40px;
+  background: linear-gradient(155deg, rgba(255,255,255,1) 0%, rgba(135,145,144,1) 100%);
+}
+`;

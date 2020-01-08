@@ -14,6 +14,27 @@ const OneCurrencyBox = styled.div`
   .ant-select-selection {
     width: 70px;
   }
+
+  .ant-select-arrow {
+    color: white;
+  }
+
+.currency-btn {
+  margin-left: 12px;
+  font-size: 12px;
+  margin-top: 12px;
+  background-color: #eee;
+  color: #999;
+  border-radius: 3px;
+
+  &:hover {
+    background-color:white;
+  }
+}
+
+.ant-input-number {
+    background-color: #ffffff88;
+  }
 `;
 
 export default class OneCurrency extends Component {
@@ -33,7 +54,7 @@ export default class OneCurrency extends Component {
       <OneCurrencyBox>
         <InputAmount type="newAmount" amount={this.props.amount} onChange={this.handleChange} currency={this.props.currency} form={form} />
         <Selector className="one-curr-selector" defaultValue={currency} list={[]} key={currency} onChange={this.handleCurrencyChange} />
-        <Icon type="delete" theme="filled" className="currency-btn" onClick={this.removeCurrency} />
+        <Icon type="close" className="currency-btn" onClick={this.removeCurrency} />
       </OneCurrencyBox>
     )
   }

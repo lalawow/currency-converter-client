@@ -6,7 +6,14 @@ const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 const getClientEnvironment = require('./env');
 
-const env = getClientEnvironment("");
+const isEnvProduction = false
+const isEnvDevelopment = true
+const publicPath = "/"
+const publicUrl = isEnvProduction
+  ? publicPath.slice(0, -1)
+  : isEnvDevelopment && '';
+const env = getClientEnvironment(publicUrl);
+console.log("ENV show", env)
 
 const smp = new SpeedMeasurePlugin();
 module.exports = {
@@ -63,6 +70,7 @@ module.exports = {
                     "@babel/plugin-syntax-dynamic-import",
                     //andt-mobile按需加载  true是less，如果不用less style的值可以写'css'
                     // ["import", { libraryName: "antd-mobile", style: true }],
+                    ['import', { libraryName: 'antd', style: 'css', libraryDirectory: 'es', }],
                     //识别class组件
                     ["@babel/plugin-proposal-class-properties", { loose: true }]
                   ],
@@ -103,6 +111,10 @@ module.exports = {
               outputPath: "media/",
               name: "[name].[hash].[ext]"
             }
+          },
+          {
+            test: /\.ico$/,
+            loader: 'url-loader'
           }
         ]
       }
@@ -110,7 +122,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./public/index.html"
+      template: "./public/index.html",
+      favicon: "./public/favicon.ico"
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
