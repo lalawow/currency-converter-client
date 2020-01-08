@@ -10,7 +10,7 @@ const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const os = require('os');
 module.exports = {
   entry: {
-    app: ['babel-polyfill', './src/index.js', './src/pages/home/index.jsx'],
+    app: ['babel-polyfill', './src/index.js', './src/containers/home/index.js'],
     vendor: ['react']
   },
   output: {
@@ -56,7 +56,7 @@ module.exports = {
                     //支持
                     '@babel/plugin-syntax-dynamic-import',
                     //true是less， 可以写'css' 如果不用less
-                    ['import', { libraryName: 'antd-mobile', style: true }],
+                    // ['import', { libraryName: 'antd-mobile', style: true }],
                     ['@babel/plugin-proposal-class-properties', { loose: true }]
                   ],
                   cacheDirectory: true

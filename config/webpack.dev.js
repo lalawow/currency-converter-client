@@ -3,13 +3,18 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 const os = require("os");
 const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+const getClientEnvironment = require('./env');
+
+const env = getClientEnvironment("");
+
+const smp = new SpeedMeasurePlugin();
 module.exports = {
   entry: {
     app: [
       "babel-polyfill",
       "./src/index.js",
-      "./src/pages/home/index.jsx",
-      "./src/pages/home/categorys/index.jsx"
+      "./src/containers/home/index.js",
     ],
     vendor: ["react", "better-scroll", "react-redux", "react-lazyload"]
   },
@@ -57,7 +62,7 @@ module.exports = {
                     //支持import 懒加载
                     "@babel/plugin-syntax-dynamic-import",
                     //andt-mobile按需加载  true是less，如果不用less style的值可以写'css'
-                    ["import", { libraryName: "antd-mobile", style: true }],
+                    // ["import", { libraryName: "antd-mobile", style: true }],
                     //识别class组件
                     ["@babel/plugin-proposal-class-properties", { loose: true }]
                   ],
@@ -77,10 +82,10 @@ module.exports = {
                   localIdentName: "[local]--[hash:base64:5]"
                 }
               },
-              {
-                loader: "less-loader",
-                options: { javascriptEnabled: true }
-              }
+              // {
+              //   loader: "less-loader",
+              //   options: { javascriptEnabled: true }
+              // }
             ]
           },
           {
@@ -109,7 +114,8 @@ module.exports = {
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
-    new HardSourceWebpackPlugin()
+    new HardSourceWebpackPlugin(),
+    new webpack.DefinePlugin(env.stringified),
   ],
   mode: "development",
   devServer: {
