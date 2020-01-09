@@ -35,8 +35,12 @@ const SelectBox = styled(Select)`
 .ant-select-selection {
   border:0;
   border-radius:0;
-  border-bottom: 1px solid #999;
+  border-bottom: 1px solid #eee;
   background:none;
     color: white;
 }
+
+.ant-select-arrow {
+    color: white;
+  }
 `;

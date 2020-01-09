@@ -1,5 +1,6 @@
 const { resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -28,7 +29,7 @@ module.exports = {
   },
   output: {
     filename: '[name].[contenthash:8].js',
-    path: resolve(__dirname, '../dist')
+    path: resolve(__dirname, '../build')
   },
   module: {
     rules: [
@@ -151,6 +152,9 @@ module.exports = {
     ]
   },
   plugins: [
+    new CopyPlugin([
+      { from: 'public', ignore: ["*.html", "*.ico"] },
+    ]),
     new HtmlWebpackPlugin({
       template: './public/index.html',
       minify: {
@@ -206,8 +210,8 @@ module.exports = {
     new webpack.HashedModuleIdsPlugin(),
     new webpack.DefinePlugin(env.stringified),
     new PrerenderSPAPlugin({
-      routes: ['/', '/home', '/shop'],
-      staticDir: resolve(__dirname, '../dist')
+      routes: ['/', '/home'],
+      staticDir: resolve(__dirname, '../build')
     })
   ],
   mode: 'production',

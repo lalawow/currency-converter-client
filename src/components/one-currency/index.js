@@ -15,9 +15,7 @@ const OneCurrencyBox = styled.div`
     width: 70px;
   }
 
-  .ant-select-arrow {
-    color: white;
-  }
+
 
 .currency-btn {
   margin-left: 12px;
@@ -55,6 +53,7 @@ export default class OneCurrency extends Component {
         <InputAmount type="newAmount" amount={this.props.amount} onChange={this.handleChange} currency={this.props.currency} form={form} />
         <Selector className="one-curr-selector" defaultValue={currency} list={[]} key={currency} onChange={this.handleCurrencyChange} />
         <Icon type="close" className="currency-btn" onClick={this.removeCurrency} />
+        <Icon type="drag" className="currency-btn" />
       </OneCurrencyBox>
     )
   }

@@ -113,6 +113,7 @@ class Home extends React.PureComponent {
       result.destination.index
     );
     this.props.dispatch(setCurrencyList(currencyList))
+    saveItems({ currencyList })
   }
 
   render() {
