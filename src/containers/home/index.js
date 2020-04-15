@@ -195,6 +195,7 @@ font-family: 'Lobster', cursive;
 .data-date {
   margin: 0 auto;
   padding-bottom: 40px;
+  padding-right: 20px;
   color: white;
   font-size: 30px;
   font-family: 'Cute Font', cursive;

@@ -135,7 +135,8 @@ module.exports = {
     contentBase: "../build",
     open: true,
     port: 5000,
-    hot: true
+    hot: true,
+    host: "0.0.0.0"
   },
   resolve: {
     extensions: [".js", ".json", ".jsx"]
